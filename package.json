@@ -1,0 +1,20 @@
+{
+  "name": "point-in-polygon-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Comparison of point in polygon routines",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikolalysenko/point-in-polygon-demo.git"
+  },
+  "author": "Mikola Lysenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikolalysenko/point-in-polygon-demo/issues"
+  },
+  "homepage": "https://github.com/mikolalysenko/point-in-polygon-demo"
+}
