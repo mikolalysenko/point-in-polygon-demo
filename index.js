@@ -34,10 +34,9 @@ populateSelect('predicates', PREDICATES, function(pred) {
 function setPolygon() {
   var verts = {}
   var poly = POLYGONS[activePolygon]
-  var v = ''
+  var v = poly[0].join()
   for(var i=0; i<poly.length; ++i) {
-    v = poly[i].join()
-    verts[v] = i
+    verts[poly[i].join()] = i
   }
   populateSelect('vertices', verts, setVertex)
   setVertex(v)
@@ -61,6 +60,9 @@ function populateSelect(name, values, listener) {
     select = document.createElement('select')
     document.body.appendChild(select)
     select.id = name
+  }
+  for(var i=select.options.length-1; i>=0; --i) {
+    select.remove(select.options[i])
   }
   var items = Object.keys(values)
   for(var i=0; i<items.length; ++i) {
@@ -158,10 +160,11 @@ function computeBounds(poly) {
   }
   var w = bounds[2] - bounds[0]
   var h = bounds[3] - bounds[1]
-  bounds[0] -= 0.125 * w
-  bounds[1] -= 0.125 * h
-  bounds[2] += 0.125 * w
-  bounds[3] += 0.125 * h
+  var bb = Math.max(w, h)
+  bounds[0] -= 0.125 * bb
+  bounds[1] -= 0.125 * bb
+  bounds[2] += 0.125 * bb
+  bounds[3] += 0.125 * bb
   return bounds
 }
 

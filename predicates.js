@@ -1,9 +1,13 @@
 'use strict'
 
 var pointInPolygon = require('point-in-polygon')
-var robustPointInPolygon = require('../robust-pnp')
+var robustPointInPolygon = require('robust-point-in-polygon')
 var pointInBigPolygon = require('point-in-big-polygon')
 var pointInRegion = require('point-in-region')
+var turfInside = require('turf-inside')
+var turfPoint = require('turf-point')
+var turfPolygon = require('turf-polygon')
+var InNOut = require('in-n-out')
 
 exports['point-in-polygon'] = function(poly) {
   return function(x) {
@@ -37,5 +41,25 @@ exports['point-in-region'] = function(poly) {
     } else {
       return -1
     }
+  }
+}
+
+exports['turf-inside'] = function(poly) {
+  var tpoly = turfPolygon([poly])
+  return function(x) {
+    if(turfInside(turfPoint(x), tpoly)) {
+      return -1
+    }
+    return 1
+  }
+}
+
+exports['in-n-out'] = function(poly) {
+  var query = new InNOut.GeoFence(poly)
+  return function(x) {
+    if(query.inside(x)) {
+      return -1
+    }
+    return 0
   }
 }
