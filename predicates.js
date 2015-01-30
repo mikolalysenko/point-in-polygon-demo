@@ -26,7 +26,7 @@ exports['robust-point-in-polygon'] = function(poly) {
 }
 
 exports['point-in-big-polygon'] = function(poly) {
-  return pointInBigPolygon([poly], true)
+  return pointInBigPolygon([poly])
 }
 
 exports['point-in-region'] = function(poly) {
@@ -34,6 +34,7 @@ exports['point-in-region'] = function(poly) {
   for(var i=0; i<poly.length; ++i) {
     ids[i] = i
   }
+  ids.reverse()
   var pred = pointInRegion(poly, [[ids]])
   return function(x) {
     if(pred(x) < 0) {

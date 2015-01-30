@@ -25,10 +25,12 @@ var zoomCoord = [1-1e-14,2-1e-13]
 populateSelect('polygons', POLYGONS, function(poly) {
   activePolygon = poly
   setPolygon()
+  notifyChanged()
 })
 
 populateSelect('predicates', PREDICATES, function(pred) {
   activePredicate = pred
+  notifyChanged()
 })
 
 function setPolygon() {
@@ -56,10 +58,16 @@ function setVertex(v) {
 
 function populateSelect(name, values, listener) {
   var select = document.getElementById(name)
+  function itemChanged() {
+    var value = select.value
+    listener(value)
+    notifyChanged()
+  }
   if(!select) {
     select = document.createElement('select')
     document.body.appendChild(select)
     select.id = name
+    select.addEventListener('change', itemChanged)
   }
   for(var i=select.options.length-1; i>=0; --i) {
     select.remove(select.options[i])
@@ -71,12 +79,6 @@ function populateSelect(name, values, listener) {
     option.value = items[i]
     select.add(option, i)
   }
-  function itemChanged() {
-    var value = select.value
-    listener(value)
-    notifyChanged()
-  }
-  select.addEventListener('change', itemChanged)
 }
 
 function getCanvas(name, width, height) {
